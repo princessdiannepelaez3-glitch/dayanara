@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lumière Cakes — Order Form</title>
+
+  <style>
+    :root{
+      --lavender-blush: #F4DFE5;
+      --amaranth-pink: #EDA3A9;
+      --azure: #D6E8F7;
+      --citron: #6BCC82;
+      --moss-green: #97A138;
+      --muted-text: #5b4a4f;
+      --card-white: #ffffff;
+      --radius: 14px;
+      --shadow: 0 8px 30px rgba(20,20,20,0.08);
+    }
+
+    /* Reset & base */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      color:var(--muted-text);
+      background: linear-gradient(135deg, var(--lavender-blush) 0%, var(--azure) 100%);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:32px;
+    }
+
+    /* Container */
+    .card {
+      width:100%;
+      max-width:760px;
+      border-radius:var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), var(--card-white));
+      box-shadow:var(--shadow);
+      padding:28px;
+      display:grid;
+      grid-template-columns: 1fr 360px;
+      gap:24px;
+      align-items:start;
+      border: 1px solid rgba(0,0,0,0.03);
+    }
+
+    /* Responsive */
+    @media (max-width:880px){
+      .card{grid-template-columns:1fr; padding:20px}
+    }
+
+    /* Left: info & form */
+    .brand {
+      display:flex;
+      gap:12px;
+      align-items:center;
+      margin-bottom:14px;
+    }
+    .logo {
+      width:64px;
+      height:64px;
+      border-radius:12px;
+      background: linear-gradient(135deg, var(--amaranth-pink), var(--lavender-blush));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:22px;
+      color:white;
+      box-shadow: 0 6px 18px rgba(141,66,95,0.12);
+    }
+    .brand h1{
+      margin:0;
+      font-size:20px;
+      color:var(--moss-green);
+    }
+    .brand p{
+      margin:0;
+      font-size:13px;
+      color:#6a585e;
+    }
+
+    .form {
+      background: transparent;
+      padding-right:6px;
+    }
+
+    label{
+      display:block;
+      font-weight:600;
+      font-size:13px;
+      margin:10px 0 6px;
+      color: #534244;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="date"],
+    select,
+    textarea {
+      width:100%;
+      border-radius:10px;
+      border:1px solid rgba(0,0,0,0.06);
+      padding:10px 12px;
+      font-size:14px;
+      background:var(--azure);
+      color: #3b2e2f;
+    }
+
+    textarea{min-height:80px; resize:vertical}
+
+    input:focus, select:focus, textarea:focus{
+      outline:none;
+      box-shadow:0 6px 18px rgba(151,161,56,0.12);
+      border-color:var(--moss-green);
+      background: #f7fbfe;
+    }
+
+    .flavors {
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      margin-top:6px;
+      padding:12px;
+      border-radius:10px;
+      background: linear-gradient(180deg, rgba(214,232,247,0.6), rgba(244,223,229,0.2));
+      border:1px solid rgba(0,0,0,0.03);
+    }
+    .flavor-row {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .flavor-row label{display:flex; align-items:center; gap:8px; color: #574648; font-weight:500}
+    .qty { padding:8px; border-radius:8px; background:white; border:1px solid rgba(0,0,0,0.05) }
+
+    /* Right: order summary */
+    .summary {
+      background: linear-gradient(180deg, var(--card-white), #fcfcff);
+      border-radius:12px;
+      padding:18px;
+      border:1px solid rgba(0,0,0,0.03);
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .summary h2{margin:0; color:var(--moss-green)}
+    .summary .subtotal{margin-top:6px; font-weight:700; font-size:18px; color:#5b4a4f}
+    .summary .meta{font-size:13px; color:#6b585e}
+
+    /* CTA button */
+    .btn {
+      display:inline-block;
+      background: linear-gradient(180deg, var(--citron), var(--citron));
+      border:none;
+      color:white;
+      padding:12px 18px;
+      font-weight:700;
+      font-size:15px;
+      border-radius:12px;
+      cursor:pointer;
+      box-shadow: 0 8px 20px rgba(107,204,130,0.18);
+      transition: transform .14s ease, box-shadow .14s ease, background .14s;
+      text-align:center;
+      width:100%;
+      margin-top:6px;
+    }
+    .btn:hover{ background: linear-gradient(180deg,var(--moss-green),var(--moss-green)); transform:translateY(-2px)}
+    .small{font-size:13px; padding:8px 12px; border-radius:10px}
+
+    /* Receipt modal */
+    .modal-backdrop{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      background: rgba(20,20,20,0.35);
+      z-index:1200;
+      padding:20px;
+    }
+    .modal {
+      width:100%;
+      max-width:720px;
+      border-radius:14px;
+      background:var(--card-white);
+      padding:22px;
+      box-shadow:0 20px 50px rgba(20,20,20,0.25);
+    }
+    .modal .logo{width:48px;height:48px;border-radius:10px; font-size:20px}
+    .receipt-grid{display:flex; gap:16px; flex-wrap:wrap}
+    .receipt-grid .left{flex:1 1 300px}
+    .receipt-grid .right{flex:0 0 220px; text-align:right}
+
+    .close-btn{position:absolute; right:22px; top:18px; background:transparent; border:none; font-size:18px; cursor:pointer; color:#555}
+
+    footer.note{
+      margin-top:10px; font-size:13px; color:#6b585e; text-align:center
+    }
+
+    /* tiny helper */
+    .muted{color:#6b585e; font-size:13px}
+  </style>
+</head>
+<body>
+
+  <main class="card" role="main" aria-labelledby="pageTitle">
+    <!-- LEFT: form -->
+    <section class="form" aria-label="Order form">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">🎂</div>
+        <div>
+          <h1 id="pageTitle">Lumière Cakes</h1>
+          <p class="muted">Handmade cakes • Order ahead for best pickup times</p>
+        </div>
+      </div>
+
+      <form id="orderForm" novalidate>
+        <div style="display:flex; gap:12px;">
+          <div style="flex:1">
+            <label for="fname">First Name</label>
+            <input id="fname" type="text" required placeholder="Juan">
+          </div>
+          <div style="flex:1">
+            <label for="lname">Last Name</label>
+            <input id="lname" type="text" required placeholder="Dela Cruz">
+          </div>
+        </div>
+
+        <label for="email">Email Address</label>
+        <input id="email" type="email" required placeholder="you@example.com">
+
+        <div style="display:flex; gap:12px; margin-top:6px;">
+          <div style="flex:1">
+            <label for="contact">Contact Number</label>
+            <input id="contact" type="text" required placeholder="+63 912 345 6789">
+          </div>
+          <div style="width:180px">
+            <label for="delivery">Preferred Delivery Date</label>
+            <input id="delivery" type="date">
+          </div>
+        </div>
+
+        <label>Flavors (choose any)</label>
+        <div class="flavors" id="flavors">
+          <div class="flavor-row">
+            <label><input class="flavor" type="checkbox" data-price="480" value="Mocha Hazelnut Crème"> Mocha Hazelnut Crème (₱480)</label>
+            <select class="qty small" aria-label="qty"><option value="1">1</option><option value="2">2</option><option value="3">3</option></select>
+          </div>
+
+          <div class="flavor-row">
+            <label><input class="flavor" type="checkbox" data-price="500" value="Caramel Coffee Crunch"> Caramel Coffee Crunch (₱500)</label>
+            <select class="qty small" aria-label="qty"><option value="1">1</option><option value="2">2</option><option value="3">3</option></select>
+          </div>
+
+          <div class="flavor-row">
+            <label><input class="flavor" type="checkbox" data-price="470" value="Classic Butter Velvet"> Classic Butter Velvet (₱470)</label>
+            <select class="qty small" aria-label="qty"><option value="1">1</option><option value="2">2</option><option value="3">3</option></select>
+          </div>
+        </div>
+
+        <label for="payment">Mode of Payment</label>
+        <select id="payment" required>
+          <option value="">Select</option>
+          <option value="COD">Cash on Delivery</option>
+          <option value="GCash">GCash</option>
+          <option value="Credit Card">Credit Card</option>
+        </select>
+
+        <div id="paymentDetails" style="display:none; margin-top:8px;">
+          <label id="paymentLabel"></label>
+          <input id="paymentNumber" type="text" placeholder="">
+        </div>
+
+        <label for="note">Additional Note</label>
+        <textarea id="note" placeholder="Any message for us?"></textarea>
+
+        <div style="display:flex; gap:12px; margin-top:12px;">
+          <button type="submit" class="btn">Submit Order</button>
+        </div>
+      </form>
+
+      <footer class="note">By submitting you agree to our processing of your order. We'll contact you to confirm details.</footer>
+    </section>
+
+    <!-- RIGHT: live summary -->
+    <aside class="summary" aria-label="Order summary">
+      <h2>Order Summary</h2>
+      <div class="meta">Selected items and totals appear here</div>
+
+      <div id="orderList" style="min-height:90px; margin-top:6px; font-size:14px; color:#594a4f">
+        — No items selected —
+      </div>
+
+      <div class="subtotal" id="subtotal">Total: ₱0</div>
+
+      <div style="margin-top:auto">
+        <div class="muted">Need help? Call +63 912 345 6789</div>
+        <div style="height:12px"></div>
+        <button id="previewBtn" class="small" style="background:transparent; border:1px solid var(--amaranth-pink); color:var(--amaranth-pink)">Preview Receipt</button>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Modal / Receipt -->
+  <div id="modalBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal" role="document" aria-labelledby="receiptTitle">
+      <button class="close-btn" id="closeModal" aria-label="Close">✕</button>
+      <div class="logo" style="background:linear-gradient(135deg,var(--amaranth-pink),var(--lavender-blush)); color:white; display:inline-flex; align-items:center; justify-content:center">🎂</div>
+      <h2 id="receiptTitle" style="margin:8px 0 0; color:var(--moss-green)">Order Receipt</h2>
+
+      <div id="receiptContent" style="margin-top:12px; font-size:14px; color:#4b3c3f">
+        <!-- receipt populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Helper to format currency
+    function peso(n){ return '₱' + Number(n).toLocaleString(); }
+
+    // Elements
+    const flavors = Array.from(document.querySelectorAll('.flavor'));
+    const qtys = Array.from(document.querySelectorAll('.qty'));
+    const orderList = document.getElementById('orderList');
+    const subtotalEl = document.getElementById('subtotal');
+    const form = document.getElementById('orderForm');
+    const payment = document.getElementById('payment');
+    const paymentDetails = document.getElementById('paymentDetails');
+    const paymentLabel = document.getElementById('paymentLabel');
+    const paymentNumber = document.getElementById('paymentNumber');
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    const receiptContent = document.getElementById('receiptContent');
+    const previewBtn = document.getElementById('previewBtn');
+    const closeModal = document.getElementById('closeModal');
+
+    // Update summary when flavors change
+    function updateSummary(){
+      let lines = [];
+      let total = 0;
+      flavors.forEach((f, i) => {
+        if(f.checked){
+          const q = parseInt(qtys[i].value) || 1;
+          const price = parseInt(f.dataset.price) || 0;
+          total += price * q;
+          lines.push(`${f.value} × ${q} — ${peso(price * q)}`);
+        }
+      });
+      orderList.innerHTML = lines.length ? lines.join('<br>') : '— No items selected —';
+      subtotalEl.textContent = 'Total: ' + peso(total);
+      return total;
+    }
+
+    // listen for changes
+    flavors.forEach((f, i) => {
+      f.addEventListener('change', updateSummary);
+      qtys[i].addEventListener('change', updateSummary);
+    });
+
+    // Payment details toggle
+    payment.addEventListener('change', function(){
+      if(this.value === 'GCash'){
+        paymentDetails.style.display = 'block';
+        paymentLabel.textContent = 'Enter GCash Number';
+        paymentNumber.placeholder = '09xx or +63...';
+      } else if(this.value === 'Credit Card'){
+        paymentDetails.style.display = 'block';
+        paymentLabel.textContent = 'Enter Credit Card Number';
+        paymentNumber.placeholder = 'xxxx xxxx xxxx xxxx';
+      } else {
+        paymentDetails.style.display = 'none';
+        paymentNumber.value = '';
+      }
+    });
+
+    // Show receipt modal
+    function showReceipt(totalAmount, receiptHTML){
+      receiptContent.innerHTML = receiptHTML;
+      modalBackdrop.style.display = 'flex';
+      modalBackdrop.setAttribute('aria-hidden', 'false');
+    }
+
+    // Build receipt HTML
+    function buildReceipt(){
+      const fname = document.getElementById('fname').value.trim();
+      const lname = document.getElementById('lname').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const contact = document.getElementById('contact').value.trim();
+      const delivery = document.getElementById('delivery').value;
+      const note = document.getElementById('note').value.trim();
+      const paymentMethod = payment.value || 'Not specified';
+
+      let items = [];
+      let total = 0;
+      flavors.forEach((f, i) => {
+        if(f.checked){
+          const q = parseInt(qtys[i].value) || 1;
+          const price = parseInt(f.dataset.price) || 0;
+          const sub = price * q;
+          items.push({name: f.value, qty: q, sub});
+          total += sub;
+        }
+      });
+
+      let itemsHtml = items.length ? items.map(it => `<div style="margin-bottom:8px"><strong>${it.name}</strong><br>Qty: ${it.qty} — ${peso(it.sub)}</div>`).join('') : '<div class="muted">No items selected</div>';
+
+      const receiptHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
+          <div>
+            <strong style="font-size:18px; color:var(--moss-green)">Lumière Cakes</strong><br>
+            <span class="muted">Order Receipt</span>
+          </div>
+          <div style="text-align:right" class="muted">Date: ${new Date().toLocaleString()}</div>
+        </div>
+
+        <hr style="margin:12px 0 10px; border:none; height:1px; background:#eee">
+
+        <div style="display:flex; gap:18px; flex-wrap:wrap;">
+          <div style="flex:1 1 320px">
+            <div><strong>Customer</strong></div>
+            <div>${fname} ${lname}</div>
+            <div>${email}</div>
+            <div>${contact}</div>
+            <div style="margin-top:8px"><strong>Delivery:</strong> ${delivery || 'Not specified'}</div>
+            ${note ? `<div style="margin-top:8px"><strong>Note:</strong> ${note}</div>` : ''}
+          </div>
+
+          <div style="flex:0 0 220px; text-align:right">
+            <div><strong>Total</strong></div>
+            <div style="font-size:18px; color:var(--amaranth-pink); font-weight:700; margin-top:6px;">${peso(total)}</div>
+            <div style="margin-top:10px" class="muted"><strong>Payment:</strong> ${paymentMethod}</div>
+          </div>
+        </div>
+
+        <hr style="margin:12px 0 10px; border:none; height:1px; background:#eee">
+
+        <div style="margin-top:6px">
+          <strong>Items Ordered</strong>
+          <div style="margin-top:8px">${itemsHtml}</div>
+        </div>
+
+        <div style="margin-top:14px; text-align:center; color:#6b585e">
+          Thank you for choosing Lumière Cakes! Your day becomes sweeter because of you.
+          <div style="margin-top:8px; font-size:13px">📍 Occidental Mindoro • Contact: +63 912 345 6789</div>
+        </div>
+      `;
+
+      return {total, receiptHTML};
+    }
+
+    // Submit handler
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+
+      // Basic validation
+      if(!document.getElementById('fname').value.trim() || !document.getElementById('lname').value.trim()){
+        alert('Please enter your full name.');
+        return;
+      }
+      if(!document.getElementById('email').value.trim()){
+        alert('Please enter an email.');
+        return;
+      }
+
+      const {total, receiptHTML} = buildReceipt();
+
+      // show thank-you alert
+      alert(`Thank you for your order! Total: ${peso(total)}`);
+
+      // show modal receipt
+      showReceipt(total, receiptHTML);
+    });
+
+    // Preview button
+    previewBtn.addEventListener('click', function(){
+      const {total, receiptHTML} = buildReceipt();
+      if(total === 0){
+        alert('No items selected to preview.');
+        return;
+      }
+      showReceipt(total, receiptHTML);
+    });
+
+    // Close modal
+    closeModal.addEventListener('click', function(){ modalBackdrop.style.display='none'; modalBackdrop.setAttribute('aria-hidden','true') });
+    modalBackdrop.addEventListener('click', function(e){
+      if(e.target === modalBackdrop) { modalBackdrop.style.display='none'; modalBackdrop.setAttribute('aria-hidden','true') }
+    });
+
+    // init
+    updateSummary();
+  </script>
+
+</body>
+</html>

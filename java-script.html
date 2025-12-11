@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperature Converter</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('converter.jpg'); /* Background Image */
+            background-size: cover;
+            background-position: center;
+            color: white;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+            padding: 30px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        select, input {
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            border: none;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .output {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2em;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .container {
+                padding: 20px;
+                max-width: 90%;
+            }
+
+            label, input, select {
+                font-size: 1em;
+            }
+
+            button {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Temperature Converter</h1>
+        
+        <label for="tempValue">Enter Temperature:</label>
+        <input type="number" id="tempValue" placeholder="Enter value" />
+
+        <label for="unitFrom">From:</label>
+        <select id="unitFrom">
+            <option value="C">Celsius (°C)</option>
+            <option value="F">Fahrenheit (°F)</option>
+        </select>
+
+        <label for="unitTo">To:</label>
+        <select id="unitTo">
+            <option value="F">Fahrenheit (°F)</option>
+            <option value="C">Celsius (°C)</option>
+        </select>
+
+        <button onclick="convertTemperature()">Convert</button>
+
+        <div class="output" id="output"></div>
+    </div>
+
+    <script>
+        function convertTemperature() {
+            let tempValue = parseFloat(document.getElementById('tempValue').value);
+            let unitFrom = document.getElementById('unitFrom').value;
+            let unitTo = document.getElementById('unitTo').value;
+            let result;
+
+            if (isNaN(tempValue)) {
+                document.getElementById('output').innerText = 'Please enter a valid number!';
+                return;
+            }
+
+            if (unitFrom === unitTo) {
+                result = tempValue;
+            } else if (unitFrom === 'C' && unitTo === 'F') {
+                result = (tempValue * 9/5) + 32;
+            } else if (unitFrom === 'F' && unitTo === 'C') {
+                result = (tempValue - 32) * 5/9;
+            }
+
+            document.getElementById('output').innerText = `Result: ${result.toFixed(2)}°${unitTo}`;
+        }
+    </script>
+
+</body>
+</html>

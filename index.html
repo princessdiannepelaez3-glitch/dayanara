@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>All About Me</title>
+
+<!-- Poppins from Google Fonts -->
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ====== FLORAL SHOUJO PALETTE (from your image) ======
+  Petal Pink     #F8EFEC
+  Petal Rose     #EED1CF
+  Misty Mint     #C6D7D1
+  Soft Sage      #BED1BD
+  Light Olive    #C9CFA0
+  Light Cream    #FEFEFD
+*/
+
+@font-face{
+  font-family:"RoseBud";
+  src:url("rosebud.ttf") format("truetype");
+  font-weight:normal;
+  font-style:normal;
+}
+
+/* ====== GENERAL COLORS (SHOUJO STYLE) ====== */
+:root{
+  --petal-pink:#F8EFEC;
+  --petal-rose:#EED1CF;
+  --misty-mint:#C6D7D1;
+  --soft-sage:#BED1BD;
+  --light-olive:#C9CFA0;
+  --light-cream:#FEFEFD;
+
+  /* usage mapping */
+  --lavender-blush:var(--petal-pink);
+  --amaranth:var(--petal-rose);
+  --azure:var(--misty-mint);
+  --citron:var(--light-olive);
+  --moss:var(--soft-sage);
+
+  --bg:var(--light-cream);
+  --banner:linear-gradient(135deg,var(--petal-rose),var(--misty-mint));
+  --card:#FFFFFF;
+  --card-lines:rgba(238,209,207,0.25);
+  --accent-chip:var(--petal-pink);
+  --border:#D9C8C6;
+  --text:#5A4A4D;
+  --accent-deep:#8A7372;
+
+  --shadow-soft:0 10px 25px rgba(138,115,114,0.18);
+}
+
+/* global reset */
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+
+  /* dreamy gradient background inspired by your palette */
+  background:
+    radial-gradient(circle at 0 0, rgba(190,209,189,0.28) 0, transparent 55%),
+    radial-gradient(circle at 100% 100%, rgba(238,209,207,0.28) 0, transparent 55%),
+    radial-gradient(circle at 50% 0, rgba(198,215,209,0.28) 0, transparent 55%),
+    var(--bg);
+}
+
+/* ====== SCROLL PROGRESS BAR ====== */
+.scroll-progress{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:4px;
+  background:rgba(255,255,255,0.4);
+  z-index:999;
+}
+.scroll-progress-bar{
+  height:100%;
+  width:0;
+  background:linear-gradient(90deg,var(--petal-rose),var(--misty-mint),var(--light-olive));
+  box-shadow:0 0 10px rgba(238,209,207,0.8);
+  border-radius:999px;
+}
+
+/* ====== BANNER ====== */
+.header-banner{
+  position:relative;
+  background:var(--banner);
+  text-align:center;
+  padding:50px 20px 42px;
+  border-bottom:3px solid var(--accent-deep);
+  box-shadow:0 5px 20px rgba(138,115,114,0.3);
+  overflow:hidden;
+}
+
+/* doodle circles & sparkles */
+.header-banner::before,
+.header-banner::after{
+  content:"";
+  position:absolute;
+  width:180px;
+  height:180px;
+  border-radius:50%;
+  border:18px solid rgba(255,255,255,0.45);
+}
+.header-banner::before{
+  top:-80px;
+  left:-20px;
+}
+.header-banner::after{
+  bottom:-90px;
+  right:-10px;
+}
+.header-banner span.sparkle{
+  position:absolute;
+  font-size:18px;
+  color:#FFF;
+  opacity:.7;
+}
+.header-banner span.sparkle.s1{top:14px;left:18%;}
+.header-banner span.sparkle.s2{top:26px;right:16%;}
+.header-banner span.sparkle.s3{bottom:18px;left:30%;}
+
+/* little badge */
+.header-banner span.badge{
+  position:absolute;
+  right:24px;
+  top:16px;
+  background:#FFFAFF;
+  color:var(--accent-deep);
+  padding:5px 12px;
+  border-radius:999px;
+  font-size:11px;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  box-shadow:0 4px 10px rgba(138,115,114,0.35);
+}
+
+.header-banner h1{
+  margin:0;
+  font-size:42px;
+  letter-spacing:4px;
+  font-weight:400;
+  font-family:"RoseBud","Poppins",system-ui;
+  text-transform:uppercase;
+  color:#FFFDFB;
+}
+.header-banner p{
+  margin:12px 0 0 0;
+  opacity:.97;
+  font-weight:500;
+  color:#FFFDFD;
+}
+
+/* mood buttons under title */
+.mood-toggle{
+  margin-top:18px;
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.pill-btn{
+  border:none;
+  padding:7px 14px;
+  border-radius:999px;
+  font-size:11px;
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  background:rgba(255,255,255,0.9);
+  color:var(--accent-deep);
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:0 4px 10px rgba(0,0,0,0.12);
+  transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+}
+.pill-btn:hover{
+  transform:translateY(-1px);
+  box-shadow:0 6px 14px rgba(138,115,114,0.4);
+}
+.pill-btn.active{
+  background:linear-gradient(120deg,var(--petal-rose),var(--misty-mint));
+  color:#FFF;
+}
+
+/* ====== NAV ====== */
+nav.top-nav{
+  background:rgba(248,239,236,0.96);
+  text-align:center;
+  padding:10px 12px;
+  border-bottom:1px solid var(--border);
+  position:sticky;
+  top:4px; /* below progress bar */
+  z-index:40;
+  backdrop-filter:blur(10px);
+}
+nav.top-nav a{
+  margin:3px 4px;
+  text-decoration:none;
+  color:var(--accent-deep);
+  font-weight:600;
+  padding:7px 12px;
+  border-radius:999px;
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:0.09em;
+  background:var(--accent-chip);
+  border:1px solid transparent;
+  transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+}
+nav.top-nav a.active,
+nav.top-nav a:hover{
+  background:#FFFFFF;
+  border-color:var(--border);
+  box-shadow:0 4px 10px rgba(138,115,114,0.25);
+  transform:translateY(-1px);
+}
+
+/* ====== PAGE LAYOUT ====== */
+.page{
+  display:none;
+  padding:28px 18px 32px;
+}
+.page.active{display:block}
+
+.page .grid{
+  max-width:1120px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:1.2fr 0.9fr 0.7fr;
+  gap:22px;
+  align-items:start;
+  margin-top:6px;
+}
+
+/* ====== CARDS (NOTEBOOK PAPER) ====== */
+.left-card,
+.right2{
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(248,239,236,0.0) 0,
+      rgba(248,239,236,0.0) 20px,
+      var(--card-lines) 21px
+    ),
+    var(--card);
+  padding:22px 22px 24px;
+  border-radius:20px;
+  border:2px solid var(--border);
+  box-shadow:var(--shadow-soft);
+  position:relative;
+}
+
+/* washi tape on top of cards */
+.left-card::before,
+.right2::before{
+  content:"";
+  position:absolute;
+  width:70px;
+  height:18px;
+  background:#FFF5FB;
+  top:-10px;
+  left:20px;
+  border-radius:5px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.18);
+  transform:rotate(-4deg);
+}
+.right2::before{
+  left:auto;
+  right:24px;
+  transform:rotate(4deg);
+}
+
+/* corner doodle */
+.left-card::after{
+  content:"✧";
+  position:absolute;
+  right:16px;
+  bottom:12px;
+  font-size:20px;
+  color:var(--accent-deep);
+  opacity:0.55;
+}
+
+/* sticky-note style boxes */
+.note-box{
+  margin-top:12px;
+  padding:12px 14px 16px;
+  border-radius:10px;
+  background:#FFF5FB;
+  border:1px solid #E7C9C6;
+  font-size:13px;
+  position:relative;
+  box-shadow:0 10px 18px rgba(138,115,114,0.18);
+  transform:rotate(-2deg);
+}
+.note-box::before{
+  content:"";
+  position:absolute;
+  width:54px;
+  height:16px;
+  background:#FFFEFC;
+  top:-10px;
+  left:50%;
+  transform:translateX(-50%) rotate(-3deg);
+  border-radius:4px;
+  box-shadow:0 3px 6px rgba(0,0,0,0.2);
+  opacity:0.9;
+}
+.note-box:nth-of-type(2){
+  background:#FFFDF3;
+  border-color:#E2DEC1;
+  transform:rotate(1.8deg);
+}
+
+/* subtle label */
+.section-label{
+  font-size:11px;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:rgba(91,65,82,0.7);
+}
+
+/* headings + ribbon */
+h2{
+  margin:4px 0 10px 0;
+  font-size:22px;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  color:var(--accent-deep);
+  position:relative;
+}
+h2::after{
+  content:"";
+  position:absolute;
+  left:-8px;
+  bottom:-8px;
+  width:140px;
+  height:14px;
+  background:linear-gradient(90deg,var(--petal-rose),var(--misty-mint),var(--light-olive));
+  opacity:0.35;
+  border-radius:14px;
+  z-index:-1;
+}
+p{
+  margin:8px 0;
+  line-height:1.6;
+  font-size:14px;
+}
+strong{font-weight:600;}
+
+/* 2-column text layout */
+.columns-2{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px 18px;
+  margin-top:6px;
+}
+.columns-2 p{
+  margin:4px 0;
+  font-size:13px;
+}
+
+/* right photo column */
+.right-col{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+
+/* Polaroid style photos with tape */
+.photo-wrapper{
+  background:#FFFFFF;
+  border-radius:18px;
+  padding:10px 10px 16px;
+  box-shadow:var(--shadow-soft);
+  border:1px solid #E7C9C6;
+  position:relative;
+  transition:transform .2s ease, box-shadow .2s ease;
+  transform-origin:center;
+}
+.photo-wrapper::before{
+  content:"";
+  position:absolute;
+  width:62px;
+  height:18px;
+  background:var(--azure);
+  top:-12px;
+  left:16px;
+  border-radius:4px;
+  transform:rotate(-6deg);
+  box-shadow:0 3px 6px rgba(0,0,0,0.18);
+  opacity:0.9;
+}
+.photo-wrapper span{
+  display:block;
+  margin-top:6px;
+  font-size:11px;
+  text-align:center;
+  opacity:.7;
+}
+.photo{
+  width:100%;
+  height:155px;
+  object-fit:cover;
+  border-radius:14px;
+  display:block;
+}
+
+/* hover tilt */
+.photo-wrapper:hover{
+  transform:translateY(-4px) rotate(-1deg) scale(1.01);
+  box-shadow:0 14px 26px rgba(138,115,114,0.35);
+}
+
+/* slight random tilts */
+.right-col .photo-wrapper:nth-child(odd){
+  transform:rotate(-2deg);
+}
+.right-col .photo-wrapper:nth-child(even){
+  transform:rotate(1.6deg);
+}
+
+/* right2 menu */
+.right2{
+  background:
+    linear-gradient(145deg,rgba(198,215,209,0.7),rgba(248,239,236,0.85)),
+    var(--card);
+}
+.right2 h3{
+  margin-top:4px;
+  color:var(--accent-deep);
+  font-size:15px;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+}
+
+/* cute bullets */
+.right2 ul{
+  list-style:none;
+  padding-left:0;
+  margin:10px 0 0;
+}
+.right2 li{
+  margin-bottom:8px;
+  position:relative;
+  padding-left:22px;
+}
+.right2 li::before{
+  content:"❀";
+  position:absolute;
+  left:0;
+  top:0;
+  font-size:12px;
+  color:var(--accent-deep);
+}
+.right2 a{
+  color:var(--text);
+  text-decoration:none;
+  font-weight:600;
+}
+.right2 a:hover{
+  color:var(--accent-deep);
+}
+
+/* chips */
+.kv{
+  font-weight:700;
+  color:var(--accent-deep);
+}
+.chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin:8px 0 2px;
+}
+.chip{
+  padding:4px 10px;
+  border-radius:999px;
+  background:var(--accent-chip);
+  border:1px dashed var(--border);
+  font-size:11px;
+}
+
+/* timeline */
+.timeline{
+  list-style:none;
+  padding-left:0;
+  margin:6px 0 0;
+}
+.timeline li{
+  padding:6px 0;
+  font-size:14px;
+}
+.timeline li strong{
+  display:inline-block;
+  min-width:70px;
+}
+
+/* code sample */
+.code-sample{
+  background:#F7F3FA;
+  padding:10px;
+  border-radius:12px;
+  border:1px dashed #DDCFE6;
+  font-family:monospace;
+  overflow:auto;
+  font-size:12px;
+}
+
+/* ====== MY AESTHETIC SPECIAL STYLES ====== */
+.taste-box{
+  margin-bottom:14px;
+  padding:10px 10px 12px;
+  background:#FFFFFF;
+  border-radius:14px;
+  border:1px dashed var(--border);
+}
+.taste-box h4{
+  margin:0 0 4px;
+  font-size:13px;
+  text-transform:uppercase;
+  letter-spacing:0.12em;
+  color:var(--accent-deep);
+}
+.taste-box p{
+  margin:4px 0;
+  font-size:12px;
+}
+.taste-photos{
+  display:flex;
+  gap:6px;
+  margin-top:6px;
+}
+.taste-photos img{
+  flex:1;
+  height:60px;
+  object-fit:cover;
+  border-radius:8px;
+}
+
+/* mini collage grid */
+.aesthetic-collage{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+  margin-top:10px;
+}
+.aesthetic-collage img{
+  width:100%;
+  height:80px;
+  object-fit:cover;
+  border-radius:10px;
+}
+#aesthetic .taste-photos img {
+  width: 100%; /* Slightly smaller images */
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+  aspect-ratio: 1; /* Maintain 1:1 ratio */
+}
+
+/* For the aesthetic collage images, ensure that the 1:1 size is set */
+.aesthetic-collage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  aspect-ratio: 1; /* Maintain 1:1 ratio */
+}
+/* Modify the layout of Top 3 Favorites */
+#top-favorites .grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;  /* Left and Right column */
+  gap: 40px;
+}
+
+#top-favorites .left-card, #top-favorites .right2 {
+  padding: 20px;
+  border-radius: 18px;
+  box-shadow: var(--shadow-soft);
+  background: var(--card);
+}
+
+#top-favorites h2 {
+  font-size: 36px; /* Adjust the size of the section title */
+  color: var(--accent-deep);
+  margin-bottom: 20px;
+}
+
+/* Make images larger and display in a grid for each category */
+.taste-photos {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);  /* 3 images per row */
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.taste-photos img {
+  width: 100%;
+  height: 250px; /* Increase height for larger images */
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(138, 115, 114, 0.18);
+  transition: transform 0.2s ease-in-out;
+}
+
+.taste-photos img:hover {
+  transform: scale(1.05); /* Slight zoom effect on hover */
+}
+
+/* Categories with left-right layout */
+#top-favorites .left-card {
+  width: 100%;
+  margin-top: 30px;
+}
+
+#top-favorites .right2 {
+  margin-top: 30px;
+}
+
+#top-favorites h3 {
+  font-size: 28px;
+  color: var(--accent-deep);
+  margin-bottom: 12px;
+}
+
+
+/* ====== INTERACTIVE MUSIC BOX (HOBBIES) ====== */
+.interactive-box{
+  margin-top:16px;
+  padding:12px 14px;
+  border-radius:14px;
+  background:linear-gradient(135deg,var(--petal-pink),var(--misty-mint));
+  color:#5B4152;
+  box-shadow:var(--shadow-soft);
+}
+.interactive-box-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+}
+.interactive-box-header span.icon{
+  font-size:16px;
+  cursor:pointer;
+}
+.song-title{
+  font-size:13px;
+  font-weight:600;
+}
+.song-mood{
+  font-size:12px;
+  opacity:.9;
+}
+.song-list{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:10px;
+}
+.song-btn{
+  border:none;
+  padding:5px 10px;
+  border-radius:999px;
+  font-size:11px;
+  background:rgba(255,255,255,0.9);
+  cursor:pointer;
+  font-weight:600;
+  letter-spacing:0.05em;
+  text-transform:uppercase;
+}
+.song-btn.active{
+  background:#FFFFFF;
+  box-shadow:0 4px 10px rgba(138,115,114,0.3);
+}
+
+/* footer */
+footer{
+  text-align:center;
+  background:#F8EFEC;
+  padding:16px;
+  border-top:1px solid var(--border);
+  margin-top:30px;
+  font-size:13px;
+  position:relative;
+}
+footer .heart-btn{
+  border:none;
+  background:transparent;
+  cursor:pointer;
+  margin-right:6px;
+  font-size:18px;
+  vertical-align:middle;
+  transition:transform .15s ease;
+}
+footer .heart-btn span{
+  display:inline-block;
+}
+footer .heart-btn.liked span{
+  transform:scale(1.2);
+}
+.like-count{
+  font-size:13px;
+  color:var(--accent-deep);
+}
+
+/* helpers */
+.text-muted{opacity:.8;font-size:13px;}
+
+/* ====== KAWAII CURSOR SPARKLES ====== */
+.kawaii-cursor{
+  position:fixed;
+  pointer-events:none;
+  font-size:14px;
+  animation:kawaiiFloat .9s ease-out forwards;
+  z-index:9999;
+}
+@keyframes kawaiiFloat{
+  0%{transform:translate3d(0,0,0) scale(1);opacity:1;}
+  100%{transform:translate3d(0,-20px,0) scale(0.7);opacity:0;}
+}
+
+/* responsive */
+@media (max-width:900px){
+  .page{padding:24px 16px 28px;}
+  .page .grid{
+    grid-template-columns:1fr;
+    max-width:640px;
+  }
+  .right-col,.right2{order:2}
+  .left-card{order:1}
+  .photo{height:210px}
+  nav.top-nav a{
+    display:inline-block;
+    margin:4px 4px;
+  }
+  .aesthetic-collage{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+
+  }
+}
+</style>
+
+</head>
+<body>
+
+<!-- AUDIO: put your song file here -->
+<audio id="bgSong" src="mysong.mp3"  loop autoplay></audio>
+
+<!-- SCROLL PROGRESS -->
+<div class="scroll-progress"><div class="scroll-progress-bar"></div></div>
+
+<!-- BANNER -->
+<header class="header-banner">
+  <span class="badge">╰☆૮꒰˶•༝ •˶꒱ა ╮♡〰</span>
+  <span class="sparkle s1">✦</span>
+  <span class="sparkle s2">♡</span>
+  <span class="sparkle s3">❀</span>
+  <h1>All About Me</h1>
+  <p id="bannerSubtitle"> 𖹭.ᐟ soft pieces of who i am ⋆𐙚 ̊.</p>
+
+  <!-- Mood buttons -->
+  <div class="mood-toggle" aria-label="Change mood theme">
+    <button type="button" class="pill-btn active" data-mood="dreamy">Dreamy</button>
+    <button type="button" class="pill-btn" data-mood="study">Study</button>
+    <button type="button" class="pill-btn" data-mood="sparkly">Sparkly</button>
+  </div>
+</header>
+
+<!-- NAVIGATION -->
+<nav class="top-nav" aria-label="Main navigation">
+  <a href="#home" data-target="home" class="navlink active">Home</a>
+  <a href="#about" data-target="about" class="navlink">About Me</a>
+  <a href="#family" data-target="family" class="navlink">My Family</a>
+  <a href="#life" data-target="life" class="navlink">My Life</a>
+  <a href="#school" data-target="school" class="navlink">School Life</a>
+  <a href="#hobbies" data-target="hobbies" class="navlink">Hobbies</a>
+  <a href="#favorites" data-target="favorites" class="navlink">Favorites</a>
+  <a href="#aesthetic" data-target="aesthetic" class="navlink">My Aesthetic</a>
+  <a href="#top-favorites" data-target="top-favorites" class="navlink">Top 3 Favorites</a> <!-- Updated navigation -->
+  <a href="#labs" data-target="labs" class="navlink">Lab Exercises</a>
+  <a href="#plans" data-target="plans" class="navlink">Future Plans</a>
+</nav>
+
+<!-- ===== PAGES ===== -->
+
+<!-- HOME -->
+<section id="home" class="page active" aria-labelledby="homeHeading">
+  <div class="grid">
+    <div class="left-card">
+      <div class="section-label">Intro</div>
+      <h2 id="homeHeading">Welcome to My Website</h2>
+      <p>Hi! I'm <span class="kv">Princess Dianne E. Pelaez</span>. I’m so happy you’re here. This website is all about me — the things I like, the moments that matter to me, and everything that makes my world a little brighter. Take your time exploring, and I hope you enjoy every bit of it!</p>
+      <p>Here, you’ll find little pieces of my life: the people I love, the hobbies that keep me inspired, the dreams I’m chasing, and the memories that shaped who I am. Think of this space as a tiny scrapbook of my world — soft, simple, and filled with things that bring me joy.
+      </p>
+	  <p class="text-muted"></p>
+      <div class="chips">
+        <span class="chip">૮꒰˶ - ˕ -꒱ა</span>
+        <span class="chip">૮₍˶ᵔ ᵕ ᵔ˶ ₎ა</span>
+        <span class="chip">𐔌՞꜆.̫.꜀՞𐦯</span>
+        <span class="chip">૮₍ • ᴥ • ₎ა</span>
+        <span class="chip">υ´• ﻌ •`υ</span>
+      </div>
+      <div class="note-box">
+        <strong>꣑ৎ</strong> Feel free to wander through each page, discover new things about me, and maybe even find something we have in common. Thank you for visiting! your presence here truly means a lot. ｡𖦹°‧⭑.ᐟ
+      </div>
+    </div>
+
+    <div class="right-col">
+      <div class="photo-wrapper">
+        <img src="img-1.jpg" alt="Picture 1" class="photo" onerror="this.style.opacity=.4;">
+        <span>˚₊‧꒰ა ☆ ໒꒱ ‧₊˚</span>
+      </div>
+      <div class="photo-wrapper">
+        <img src="img-2.jpg" alt="Picture 2" class="photo" onerror="this.style.opacity=.4;">
+        <span>⋆.˚༄</span>
+      </div>
+    </div>
+
+    <div class="right2">
+      <h3>Quick Links</h3>
+      <ul>
+        <li><a href="#about" data-target="about" class="navlink">About Me</a></li>
+        <li><a href="#aesthetic" data-target="aesthetic" class="navlink">My Aesthetic</a></li>
+        <li><a href="#labs" data-target="labs" class="navlink">Lab Exercises</a></li>
+        <li><a href="#contact" data-target="contact" class="navlink">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT ME -->
+<section id="about" class="page" aria-labelledby="aboutHeading">
+  <div class="grid">
+    <div class="left-card">
+      <div class="section-label">Profile</div>
+      <h2 id="aboutHeading">About Me</h2>
+      <div class="columns-2">
+        <p><span class="kv">Name:</span> Princess Dianne E. Pelaez</p>
+        <p><span class="kv">Age:</span> 18 </p>
+        <p><span class="kv">Birthday:</span> 01.22.2007 </p>
+        <p><span class="kv">Zodiac:</span> Aquarius</p>
+		<p><span class="kv">Mbti:</span> INFJ</p>
+		<p><span class="kv">Height:</span> 159 cm </p>
+      </div>
+      <p>I enjoy listening to music, doodling, and finding comfort in the little things that make life feel warm. I made this website for a school project, but also to share a small piece of my world—the things that inspire me and the moments that shape me.</p>
+      <p><strong>Personality:</strong> I’m an INFJ, which means I’m usually gentle, introspective, and idealistic. I care deeply about people, I notice things others might overlook, and I love connecting through meaning and emotion. I’m the type who thinks a lot, feels deeply, and expresses myself best through creativity.</p>
+      <div class="chips">
+        <span class="chip">⋆˚꩜</span>
+        <span class="chip">Ი︵𐑼 !.</span>
+        <span class="chip">. ✦ ݁ ˖</span>
+      </div>
+      <div class="note-box">
+        <strong>Motto:</strong> All the things that you can't do are not the things that define you ˙⋆✮
+      </div>
+    </div>
+
+    <div class="right-col">
+      <div class="photo-wrapper">
+        <img src="about-1.jpg" alt="About photo A" class="photo" onerror="this.style.opacity=.4;">
+        <span>˖⋆࿐໋</span>
+      </div>
+      <div class="photo-wrapper">
+        <img src="about-2.jpg" alt="About photo B" class="photo" onerror="this.style.opacity=.4;">
+        <span>૮ ․ ․ ྀིა</span>
+      </div>
+    </div>
+
+    <div class="right2">
+      <h3>Fun Facts</h3>
+      <ul>
+        <li>loves cats</li>
+        <li>awkward</li>
+        <li>loves discovering new songs that fit my mood</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- FAMILY -->
+<section id="family" class="page" aria-labelledby="familyHeading">
+  <div class="grid">
+    <div class="left-card">
+      <div class="section-label">Home</div>
+      <h2 id="familyHeading">My Family</h2>
+      <p>My family is the heart of my everyday life—a small world filled with gentle love, quiet strength, and the kind of comfort you can never really replace. They support me in ways both loud and silent, inspiring me to grow, try again, and keep becoming a better version of myself. Even our simplest moments together feel like warm memories waiting to happen.</p>
+      <p><strong>Members:</strong></p>
+	  <p><strong>Mom:</strong> Roschell E. Pelaez</p> 
+	  <p>She is the soft heart of our home. Mom loves quiet mornings, warm drinks, and creating a cozy atmosphere that makes everyone feel safe. Her gentle words, thoughtful reminders, and small acts of care always make our days lighter. She’s the kind of person whose presence feels like warmth you can return to anytime.</p>
+      <p><strong>Dad:</strong> Rene D. Pelaez</p> 
+	  <p>Dad is the steady calm in our family. He enjoys simple hobbies, fixing little things around the house, and listening to old music that fills the room with nostalgia. His guidance is steady, his humor is subtle, and his love is constant. He brings balance to our home—strong, quiet, and comforting.</p>
+	  <div class="note-box">
+        <strong>𐔌՞ ܸ.ˬ.ܸ՞𐦯</strong> To my family—thank you for being my constant warmth. For every small moment, every lesson, and every gentle reminder that I am loved. No matter where I go, your hearts will always be my home.
+      </div>
+    </div>
+
+    <div class="right-col">
+      <div class="photo-wrapper">
+        <img src="fam-1.jpg" alt="Family photo" class="photo" onerror="this.style.opacity=.4;">
+        <span>⋆˚࿔</span>
+      </div>
+    </div>
+
+    <div class="right2">
+      <h3>Family Notes ˶ᵔ ᵕ ᵔ˶ </h3>
+      <ul>
+        <li>we enjoy quiet moments</li>
+        <li>we support each other in big ways and even more in the small, quiet ways</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- MY LIFE (TIMELINE + GALLERY) -->
+<section id="life" class="page" aria-labelledby="lifeHeading">
+  <div class="grid">
+    <div class="left-card">
+      <div class="section-label">Timeline</div>
+      <h2 id="lifeHeading">My Life — Timeline</h2>
+      <ul class="timeline">
+        <li><strong>2007 — Born  </strong></li>
+		<li>I was born in 2007, starting the journey that would slowly shape who I am today.</li>
+        <li><strong>2018–2019 — Primary Years  </strong></li>
+		<li>These were the years I finished my primary school journey. It was a time of innocent memories, learning new things every day, slowly building confidence, and discovering the kind of student I wanted to be.</li>
+        <li><strong>2022–2023 — Junior High School (SJNAIHS)  </strong></li>
+		<li>I studied at San Jose National Agricultural and Industrial High School (SJNAIHS) where I took Garments as my major.
+           These years helped me explore creativity, hands-on skills, and build more confidence in what I can do.</li>
+        <li><strong>2024–2025 — Senior High School (SJNAIHS)  </strong></li>
+		<li>I continued at SJNAIHS, this time taking the TVL strand, major in CSS (Computer Systems Servicing).
+        This phase was where I started discovering my interest in technology, computers, and digital work, which prepared me for my future path.</li>
+		<li><strong>2025–2026  — First Year College (BSIT)  </strong></li>
+		<li>Now, I’m taking Bachelor of Science in Information Technology (BSIT).
+        This chapter is all about growth—learning deeper tech skills, exploring new opportunities, and building the future I want.
+</li>
+      </ul>
+      <h3 style="margin-top:16px;"> 𝜗𝜚 ࣪˖ ִ𐙚 </h3>
+    </div>
+
+    <div class="right-col">
+      <div class="photo-wrapper">
+        <img src="life-1.jpg" alt="life image 1" class="photo" onerror="this.style.opacity=.4;">
+        <span>childhood memory  ᡣ𐭩 •｡ꪆৎ ˚⋅</span>
+      </div>
+      <div class="photo-wrapper">
+        <img src="life-2.jpg" alt="life image 2" class="photo" onerror="this.style.opacity=.4;">
+        <span>𓏲𝄢</span>
+      </div>
+    </div>
+
+   
+    </div>
+  </div>
+</section>
+
+<!-- COLLEGE LIFE -->
+<section id="school" class="page" aria-labelledby="schoolHeading">
+  <div class="grid">
+    <div class="left-card">
+      <div class="section-label">Student Life</div>
+      <h2 id="schoolHeading"> My College Life</h2>
+      <p><strong>Grade/Year:</strong> first year college</p>
+      <p><strong>𐙚˙⋆.˚ ᡣ𐭩</strong></p>
+      <p>College life for me right now is a mix of learning, adjusting, and honestly… sometimes struggling. As a BSIT student, there are days when everything feels manageable, and days when my brain feels overloaded with lessons, codes, and tasks. But that’s normal, and I’m learning to deal with it slowly.</p>
+	  <p>School is where I learn new skills, meet friends, and do projects like this website. I like the library and group activities.</p>
+	  <p>Every day, I go to class hoping I can keep up. Some topics are easy to understand, but others take time, and that’s where I start to feel the pressure. There are moments when I doubt myself, moments when I get tired, and moments when I just want to rest—but I still keep going.</p>
+	  <p>Even with the struggles, college has its good sides. I have friends who understand what I’m going through, teachers who guide us, and small moments that remind me why I chose this course. It’s not always smooth, but it’s not always heavy either. It’s a normal mix of stress, learning, trying, and improving bit by bit.</p>
+	  <p>College taught me that it’s okay not to understand everything right away. It’s okay to feel lost sometimes. What matters is that I’m trying, and I’m growing, even on the difficult days.</p>
+	  <p>This is my life now, not perfect, not easy, but real. And I’m slowly building my future, one step at a time, even with the struggles.</p>
+      <div class="note-box">
+        <strong>૮₍ ˃ ⤙ ˂ ₎ა</strong> なるようになる。</strong>
+      </div>
+    </div>
+
+    <div class="right-col">
+      <div class="photo-wrapper">
+        <img src="school-1.jpg" alt="school photo 1" class="photo" onerror="this.style.opacity=.4;">
+        <span>𐔌՞. .՞𐦯</span>
+      </div>
+      <div class="photo-wrapper">
+        <img src="school-2.jpg" alt="school photo 2" class="photo" onerror="this.style.opacity=.4;">
+        <span>girlies .𖥔 ݁ ˖𓂃.☘︎ ݁˖</span>
+      </div>
+    </div>
+
+    <div class="right2">
+      <h3>School Stuff</h3>
+      <ul>
+        <li><strong>clubs </strong></li>
+		<p>CCM</p>
+		<p>animators</p>
+        <li><strong>favorite place </strong></li>
+		<p>lab</p>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- HOBBIES -->
+<section id="hobbies" class="page" aria-labelledby="hobbiesHeading">
+  <div class="grid">
+    <div class="left-card">
+      <div class="section-label">Free Time</div>
+      <h2 id="hobbiesHeading">Hobbies</h2>
+      <p>⭑.ᐟ listening to music</p>
+      <p>⭑.ᐟ doodling</p>
+      <p>⭑.ᐟ browsing pinterest for ideas</p>
+      <p>⭑.ᐟ watching k-series and movies</p>
+	  <p>⭑.ᐟ reading manhwa</p>
+	  <p>⭑.ᐟ editing</p>
+	  <p>⭑.ᐟ making playlist</p>
+      <div class="note-box">
+        <strong>₍ᐢ. .ᐢ₎ ₊˚⊹♡</strong> ‧₊˚♪ 𝄞₊˚⊹ ｡𖦹°‧ ₊˚⊹ᰔ
+      </div>
+
+      <!-- Interactive music mood box -->
+      <div class="interactive-box" id="moodPlayer">
+        <div class="interactive-box-header">
+          <div>
+            <div class="song-title" id="songTitle">“lofi study rain”</div>
+            <div class="song-mood" id="songMood">Mood: calm &amp; focused</div>
+          </div>
+          <span class="icon" id="songIcon">▶</span>
+        </div>
+        <div class="song-list">
+  <button type="button" class="song-btn active" data-title="“Heaven”" data-mood="Mood: serene &amp; uplifting" data-src="heaven.mp3">Study</button>
+  <button type="button" class="song-btn" data-title="“Love”" data-mood="Mood: warm &amp; romantic" data-src="love.mp3">Dreamy</button>
+  <button type="button" class="song-btn" data-title="“Bubblegum”" data-mood="Mood: fun &amp; playful" data-src="bubblegum.mp3">Café</button>
+  <button type="button" class="song-btn" data-title="“Heaven (Repeat)”" data-mood="Mood: serene &amp; uplifting" data-src="heaven.mp3">Happy</button>  <!-- Placeholder; remove if not needed -->
+</div>
+
+      </div>
+    </div>
+
+    <div class="right-col">
+      <div class="photo-wrapper">
+        <img src="hob-1.jpg" alt="hobby 1" class="photo" onerror="this.style.opacity=.4;">
+        <span>૮₍´˶• . • ⑅ ₎ა</span>
+      </div>
+      <div class="photo-wrapper">
+        <img src="hob-2.jpg" alt="hobby 2" class="photo" onerror="this.style.opacity=.4;">
+        <span>₊˚ʚ ᗢ₊˚✧ ﾟ.</span>
+      </div>
+    </div>
+
+    <div class="right2">
+      <h3>Tools I Use</h3>
+      <ul>
+        <li>phone camera</li>
+        <li>ibispaint x</li>
+        <li>pinterest</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- FAVORITES -->
+<section id="favorites" class="page" aria-labelledby="favHeading">
+  <div class="grid">
+    <div class="left-card">
+      <div class="section-label">Comfort Things</div>
+      <h2 id="favHeading">My Favorites</h2>
+      <p><strong>colors:</strong></p>
+	  <p>baby blue, pastel yellow, wine red, navy blue, peony pink</p>
+      <p><strong>Food:</strong></p>
+	  <p>carbonara, bulalo, pork sinigang, chicken adobo, lasagna, chocolate cake</p>
+      <p><strong>Music:</strong></p>
+	  <p>r&b, kpop, jpop, opm, indie rock, metal</p>
+      <p><strong>Places:</strong></p>
+	  <p>flower gardens, near the ocean</p>
+	  <p><strong>scents</strong></p>
+	  <p>soft floral and baby powder</p>
+	  <p><strong>flower</strong></p>
+	  <p>daisies, lilies, peony, lavender, azalea, lily of the valley</p>
+	  <p><strong>season</strong></p>
+	  <p>summer</p>
+	  <p><strong>movies/series</strong></p>
+	  <p>fruit basket, ao haru ride, 20th century girl, twinkling watermelon, our beloved summer, alchemy of souls</p>
+	  <p>alice in borderland, stranger things, barbie, from me to you, bet, haikyuu</p>
+	  <p><strong>games</strong></p>
+	  <p>stardew valley, minecraft, roblox</p>
+	  <p><strong>animals</strong></p>
+	  <p>cats, dogs, koi fish, bunnies</p>
+      <div class="note-box">
+        <strong>𐔌՞꜆. ̫.꜀՞𐦯 </strong> ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣤⣤⣤⣤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡤⠤⠶⢦⣤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⢀⠀⣀⠀⢀⡤⢈⣡⡴⠶⠶⠶⣤⣄⠀⢤⡀⢀⡀⢀⡀⠀⠀⠀⠀
+⠀⠀⠀⠁⢸⡏⣸⠋⣰⠏⣰⠟⢡⡴⠖⠚⠶⣤⡉⢷⡀⢳⡈⢷⡌⡿⠈⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⢿⠀⡟⢰⡏⣰⠏⣰⠞⠛⢢⠈⣧⠘⡇⠈⡇⠸⠃⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠈⠃⢺⡇⢺⡄⢿⡀⠢⠜⣠⡏⢠⡏⠸⠃⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣷⡈⢳⣌⡙⠳⠟⢋⣴⠏⢀⡄⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠘⢷⣌⠻⢦⣌⣙⡛⠛⣉⣡⡴⠋⣀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⢼⣤⡙⠷⣦⠌⠉⠙⠋⢉⣡⣴⠾⣋⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⣦⡌⠛⠀⠀⠀⠀⠀⠀⠀⠈⠐⠚⠋⡁⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+      </div>
+    </div>
+
+    <div class="right-col">
+      <div class="photo-wrapper">
+        <img src="fav-1.jpg" alt="fav 1" class="photo" onerror="this.style.opacity=.4;">
+        <span>^_< -★</span>
+      </div>
+      <div class="photo-wrapper">
+        <img src="fav-2.jpg" alt="fav 2" class="photo" onerror="this.style.opacity=.4;">
+        <span>comfort food</span>
+      </div>
+    </div>
+
+    <div class="right2">
+      <h3>Top 3 ˗ˏˋ ★ ˎˊ˗</h3>
+      <ul>
+        <li>fries</li>
+        <li>ice cream</li>
+        <li>grapes</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- MY AESTHETIC -->
+<section id="aesthetic" class="page" aria-labelledby="aestheticHeading">
+  <div class="grid">
+    <!-- MAIN COLUMN -->
+    <div class="left-card">
+      <div class="section-label">Vibe Check</div>
+      <h2 id="aestheticHeading">My Aesthetic</h2>
+	  <strong>⋆. 𐙚 ˚</strong> ⠀⠀⠀⠀⠀⠀
+      <p>this page is all about my style and taste, how i like to look, the art style i love, colors that make me happy, and the music that matches my mood.</p>
+
+      <div class="aesthetic-collage">
+        <img src="aes-1.jpg" alt="aesthetic collage 1" onerror="this.style.opacity=.4;">
+        <img src="aes-2.jpg" alt="aesthetic collage 2" onerror="this.style.opacity=.4;">
+        <img src="aes-3.jpg" alt="aesthetic collage 3" onerror="this.style.opacity=.4;">
+        <img src="aes-4.jpg" alt="aesthetic collage 4" onerror="this.style.opacity=.4;">
+        <img src="aes-5.jpg" alt="aesthetic collage 5" onerror="this.style.opacity=.4;">
+        <img src="aes-6.jpg" alt="aesthetic collage 6" onerror="this.style.opacity=.4;">
+      </div>
+
+      <div class="note-box">
+        <strong>┆　┆　┆　┆　┆
+┆　┆  ࣪ ˖☆ ࣪⭑┆ ݁˖ .☆ . ݁ ˖ 
+☆⊹ ࣪ ┆ ˖ ࣪　⊹ ࣪ ★ ⋆.˚  ⊹ ࣪
+   ࣪ ˖⋆˚★ ₊ ⊹　  ࣪˖ ࣪ ₊  ࣪ ˖　
+. ݁　⊹ ࣪ ˖　　　 ࣪ ˖
+　　.  ݁　　　  ݁
+　　. </strong><br>
+    <strong>ᯓ★</strong> 
+	<p>⊹ whimsy twee</p>
+	<p>⊹ pastel fairycore</p>
+	<p>⊹ ethereal</p>
+      </div>
+    </div>
+
+    <!-- LOTS OF IMAGES COLUMN (ART / FASHION BOARD) -->
+    <div class="right-col">
+      <div class="photo-wrapper">
+        <img src="art-1.jpg" alt="art style 1" class="photo" onerror="this.style.opacity=.4;">
+        <span>𓏲ּ𝄢</span>
+      </div>
+      <div class="photo-wrapper">
+        <img src="art-2.jpg" alt="art style 2" class="photo" onerror="this.style.opacity=.4;">
+        <span>۫ ꣑ৎ</span>
+      </div>
+      <div class="photo-wrapper">
+        <img src="fashion-1.jpg" alt="fashion inspo 1" class="photo" onerror="this.style.opacity=.4;">
+        <span>˚₊۶ৎ˙⋆</span>
+      </div>
+    </div>
+
+    <!-- TEXT BOXES + PER TASTE -->
+    <div class="right2">
+      <h3>Style &amp; Taste</h3>
+
+      <!-- ART STYLE -->
+      <div class="taste-box">
+        <h4>Art Style</h4>
+        <p>˚⟡˖ ࣪</p>
+        <div class="taste-photos">
+          <img src="art-3.jpg" alt="art style 3" onerror="this.style.opacity=.4;">
+          <img src="art-4.jpg" alt="art style 4" onerror="this.style.opacity=.4;">
+          <img src="art-5.jpg" alt="art style 5" onerror="this.style.opacity=.4;">
+        </div>
+      </div>
+
+      <!-- MAKEUP STYLE -->
+      <div class="taste-box">
+        <h4>Makeup Style</h4>
+        <p>(˶˃ ᵕ ˂˶)</p>
+        <div class="taste-photos">
+          <img src="makeup-1.jpg" alt="makeup 1" onerror="this.style.opacity=.4;">
+          <img src="makeup-2.jpg" alt="makeup 2" onerror="this.style.opacity=.4;">
+          <img src="makeup-3.jpg" alt="makeup 3" onerror="this.style.opacity=.4;">
+        </div>
+      </div>
+
+      <!-- FASHION -->
+      <div class="taste-box">
+        <h4>Fashion</h4>
+        <p>⋆˙⟡</p>
+        <div class="taste-photos">
+          <img src="fashion-2.jpg" alt="fashion 2" onerror="this.style.opacity=.4;">
+          <img src="fashion-3.jpg" alt="fashion 3" onerror="this.style.opacity=.4;">
+          <img src="fashion-4.jpg" alt="fashion 4" onerror="this.style.opacity=.4;">
+        </div>
+      </div>
+
+      <!-- COLORS -->
+      <div class="taste-box">
+        <h4>Colors</h4>
+        <p>𐙚˙⋆.˚ ᡣ𐭩</p>
+        <div class="taste-photos">
+          <img src="color-1.jpg" alt="color palette 1" onerror="this.style.opacity=.4;">
+          <img src="color-2.jpg" alt="color palette 2" onerror="this.style.opacity=.4;">
+          <img src="color-3.jpg" alt="color palette 3" onerror="this.style.opacity=.4;">
+        </div>
+      </div>
+
+      <!-- MUSIC TASTE -->
+      <div class="taste-box">
+        <h4>Music Taste</h4>
+        <p>ᯓ‎𝄞 ˎˊ˗</p>
+        <div class="taste-photos">
+          <img src="music-1.jpg" alt="music 1" onerror="this.style.opacity=.4;">
+          <img src="music-2.jpg" alt="music 2" onerror="this.style.opacity=.4;">
+          <img src="music-3.jpg" alt="music 3" onerror="this.style.opacity=.4;">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="top-favorites" class="page" aria-labelledby="topFavoritesHeading">
+  <div class="grid">
+    <div class="left-card">
+      <h2 id="topFavoritesHeading">Top 3 Favorites</h2>
+      
+      <!-- Movies -->
+      <h3>Movies</h3>
+      <div class="taste-photos">
+        <img src="movie-1.jpg" alt="Favorite Movie 1" onerror="this.style.opacity=.4;">
+        <img src="movie-2.jpg" alt="Favorite Movie 2" onerror="this.style.opacity=.4;">
+        <img src="movie-3.jpg" alt="Favorite Movie 3" onerror="this.style.opacity=.4;">
+      </div>
+      
+      <!-- Series -->
+      <h3>Series</h3>
+      <div class="taste-photos">
+        <img src="series-1.jpg" alt="Favorite Series 1" onerror="this.style.opacity=.4;">
+        <img src="series-2.jpg" alt="Favorite Series 2" onerror="this.style.opacity=.4;">
+        <img src="series-3.jpg" alt="Favorite Series 3" onerror="this.style.opacity=.4;">
+      </div>
+
+      <!-- Anime -->
+      <h3>Anime</h3>
+      <div class="taste-photos">
+        <img src="anime-1.jpg" alt="Favorite Anime 1" onerror="this.style.opacity=.4;">
+        <img src="anime-2.jpg" alt="Favorite Anime 2" onerror="this.style.opacity=.4;">
+        <img src="anime-3.jpg" alt="Favorite Anime 3" onerror="this.style.opacity=.4;">
+      </div>
+	  
+	  <!-- Bands -->
+      <h3>Bands</h3>
+      <div class="taste-photos">
+        <img src="band-1.jpg" alt="Favorite Anime 1" onerror="this.style.opacity=.4;">
+        <img src="band-2.jpg" alt="Favorite Anime 2" onerror="this.style.opacity=.4;">
+        <img src="band-3.jpg" alt="Favorite Anime 3" onerror="this.style.opacity=.4;">
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+
+<<!-- LAB EXERCISES (Updated as Projects) -->
+<section id="labs" class="page" aria-labelledby="labsHeading">
+  <div class="grid">
+    <div class="left-card">
+      <div class="section-label">Lab Exercises</div>
+      <h2 id="labsHeading">My Projects</h2>
+
+      <div class="project-list">
+        <!-- Project 1 -->
+        <div class="project-card">
+          <img src="str.jpg" width="200" height="200" alt="Story Project">
+          <h2>story in the Book</h2>
+          <p>Explore the pages and check all my work.</p>
+          <a href="story in the book.html" class="btn" target="_blank">View Story</a>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="project-card">
+          <img src="bf.jpg" width="200" height="200" alt="Recipe Project">
+          <h2>Recipe</h2>
+          <p>Online recipe form for customized bulalo instructions.</p>
+          <a href="recipe.html" class="btn">View Recipe</a>
+        </div>
+
+        <!-- Project 3 -->
+        <div class="project-card">
+          <img src="yay.jpg" width="200" height="200" alt="Order Form Project">
+          <h2>Order Form</h2>
+          <p>A simple platform for customers to place bulalo orders.</p>
+          <a href="form.html" class="btn">View Order Form</a>
+        </div>
+
+        <!-- Project 4 -->
+        <div class="project-card">
+          <img src="m2.jpg" width="200" height="200" alt="Bicycle Project">
+          <h2>Bicycle</h2>
+          <p>My edited bicycle image.</p>
+          <a href="CSS.html" class="btn">View Bicycle</a>
+        </div>
+
+        <!-- Project 5 -->
+        <div class="project-card">
+          <img src="temp.jpg" width="200" height="200" alt="Converter Project">
+          <h2>Conversion</h2>
+          <p>My temperature converter tool.</p>
+          <a href="java-script.html" class="btn">View Converter</a>
+        </div>
+      </div>
+    </div>
+
+    
+
+    <div class="right2">
+      <h3>Quick Links</h3>
+      <ul>
+        <li><a href="#about" data-target="about" class="navlink">About Me</a></li>
+        <li><a href="#aesthetic" data-target="aesthetic" class="navlink">My Aesthetic</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- FUTURE PLANS -->
+<section id="plans" class="page" aria-labelledby="plansHeading">
+  <div class="grid">
+    <div class="left-card">
+      <div class="section-label">Dreams</div>
+      <h2 id="plansHeading">Future Plans &amp; Goals</h2>
+	  <p><strong>short-term:</strong></p>
+      <p>✦ adjust to college life while keeping a healthy routine</p>
+	  <p>✦ improve web skills</p>
+	  <p>✦ build friendships and surround myself with positive, inspiring people.</p>
+	  <p><strong>long-term:</strong></p>
+	  <p>✦ finish college</p>
+	  <p>✦ travel to my dream destinations while I’m still young</p>
+	  <p>✦ become confident in my skills and work professionally in design or tech.</p>
+      <div class="note-box">
+        <strong>˚₊‧꒰ა ☆ ໒꒱ ‧₊˚</strong> 
+      </div>
+    </div>
+
+    <div class="right-col">
+      <div class="photo-wrapper">
+        <img src="goal-1.jpg" alt="goal 1" class="photo" onerror="this.style.opacity=.4;">
+        <span>˖⁺‧₊˚♡˚₊‧⁺˖</span>
+      </div>
+      <div class="photo-wrapper">
+        <img src="goal-2.jpg" alt="goal 2" class="photo" onerror="this.style.opacity=.4;">
+        <span>(*ᴗ͈ˬᴗ͈)ꕤ*.ﾟ</span>
+      </div>
+    </div>
+
+    <div class="right2">
+      <h3>Goal Checklist</h3>
+      <ul>
+        <li>improve communication skills + confidence.</li>
+        <li>learn advanced HTML/CSS and practice aesthetic layouts.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="page" aria-labelledby="contactHeading">
+  <div class="grid">
+    <div class="left-card">
+      <div class="section-label">reach me✧˖°꒰๑’ꀾ’๑꒱°˖✧</div>
+      <h2 id="contactHeading">Contact</h2>
+      <p>If you'd like to contact me to say hi:</p>
+      <ul>
+      <li>Email: <a href="mailto:princessdiannepelaez3@gmail.com">princessdiannepelaez3@gmail.com</a></li>
+      <li>Facebook: <a href="https://www.facebook.com/cesiaevr" target="_blank">Princess Dianne E. Pelaez</a></li>
+	   <li>Instagram: <a href="https://www.instagram.com/cesiaiana?igsh=dWhrNGM2NW9wZTZl" target="_blank">cesiaiana</a></li>
+    </ul>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2025 Princess Dianne E. Pelaez. All rights reserved.</p>
+  </footer>
+
+<script>
+/* ====== Simple single-file navigation ====== */
+(function(){
+  const links = document.querySelectorAll('.navlink');
+  const pages = document.querySelectorAll('.page');
+
+  function showPage(id){
+    pages.forEach(p=> p.id===id ? p.classList.add('active') : p.classList.remove('active'));
+    links.forEach(a=> a.classList.toggle('active', a.dataset.target===id));
+    history.replaceState(null,"", "#"+id);
+    window.scrollTo({top:0,behavior:"smooth"});
+  }
+
+  links.forEach(a=>{
+    a.addEventListener("click", e=>{
+      e.preventDefault();
+      const target = a.dataset.target;
+      if(target) showPage(target);
+    });
+  });
+
+  const hash = location.hash.replace("#","");
+  if(hash){
+    const match = Array.from(pages).some(p=>p.id===hash);
+    if(match) showPage(hash);
+  }
+
+  window.showPage = showPage;
+})();
+
+/* ====== Scroll progress bar ====== */
+(function(){
+  const bar = document.querySelector('.scroll-progress-bar');
+  function update(){
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const percent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    bar.style.width = percent + '%';
+  }
+  window.addEventListener('scroll', update);
+  update();
+})();
+
+/* ====== Kawaii cursor sparkles ====== */
+(function(){
+  const emojis = ['✦','♡','❀','☆'];
+  let lastTime = 0;
+
+  window.addEventListener('pointermove', (e)=>{
+    const now = Date.now();
+    if(now - lastTime < 60) return; // limit spam
+    lastTime = now;
+
+    const span = document.createElement('span');
+    span.className = 'kawaii-cursor';
+    span.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    span.style.left = (e.clientX - 4) + 'px';
+    span.style.top = (e.clientY - 4) + 'px';
+    document.body.appendChild(span);
+
+    setTimeout(()=> span.remove(), 900);
+  });
+})();
+
+/* ====== Mood buttons (banner text + subtle body class) ====== */
+(function(){
+  const buttons = document.querySelectorAll('.pill-btn[data-mood]');
+  const subtitle = document.getElementById('bannerSubtitle');
+  const body = document.body;
+
+  const moodText = {
+    dreamy: '૮꒰ ˶ ༝ •˶꒱ა ♡ ',
+    study: '૮꒰⸝⸝>  ̫ <⸝⸝꒱ა ',
+    sparkly: 'ଘ꒰⑅ ´ ˘ ` ⑅ ꒱♡'
+  };
+
+  buttons.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      buttons.forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      const mood = btn.dataset.mood;
+      subtitle.textContent = moodText[mood] || subtitle.textContent;
+
+      body.classList.remove('mood-dreamy','mood-study','mood-sparkly');
+      body.classList.add('mood-'+mood);
+    });
+  });
+})();
+
+/* ====== Interactive music mood box + REAL AUDIO ====== */
+(function(){
+  const container = document.getElementById('moodPlayer');
+  if(!container) return;
+  const titleEl = document.getElementById('songTitle');
+  const moodEl = document.getElementById('songMood');
+  const iconEl = document.getElementById('songIcon');
+  const buttons = container.querySelectorAll('.song-btn');
+  const audio = document.getElementById('bgSong');
+  let playing = false;
+
+  buttons.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      buttons.forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      titleEl.textContent = btn.dataset.title;
+      moodEl.innerHTML = btn.dataset.mood;
+
+      if(audio && btn.dataset.src){
+        audio.src = btn.dataset.src;  // Change the audio source
+        audio.load();  // Reload the audio element with the new source
+        audio.play().then(()=>{
+          playing = true;
+          iconEl.textContent = '⏸';
+        }).catch((error)=>{
+          console.log('Playback failed:', error);  // Handle errors (e.g., browser blocks autoplay)
+        });
+      }
+    });
+  });
+
+  iconEl.addEventListener('click', ()=>{
+    if(!audio) return;
+    if(playing){
+      audio.pause();
+      playing = false;
+      iconEl.textContent = '▶';
+    }else{
+      audio.play().then(()=>{
+        playing = true;
+        iconEl.textContent = '⏸';
+      }).catch((error)=>{
+        console.log('Playback failed:', error);
+      });
+    }
+  });
+})();
+/* ====== Footer heart like button ====== */
+(function(){
+  const btn = document.getElementById('likeButton');
+  const heart = document.getElementById('likeHeart');
+  const countEl = document.getElementById('likeCount');
+  let count = 0;
+  let liked = false;
+
+  btn.addEventListener('click', ()=>{
+    liked = !liked;
+    btn.classList.toggle('liked', liked);
+    heart.textContent = liked ? '❤' : '♡';
+    count = Math.max(0, count + (liked ? 1 : -1));
+    countEl.textContent = count;
+  });
+})();
+</script>
+
+</body>
+</html>

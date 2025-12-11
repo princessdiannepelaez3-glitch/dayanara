@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Story in the Book — Submitted By / Submitted To</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- Elegant Script Font -->
+  <style>
+    @font-face {
+      font-family: 'OneStarryNight';
+      src: url('OneStarryNight-lp45.ttf') format('truetype');
+    }
+
+    :root{
+      --paper:#fff7fb;
+      --ink:#5b4a4f;
+      --accent:#c99ab7;
+      --accent-light:#e7cde1;
+      --shadow: rgba(0,0,0,0.08);
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: 'Poppins', sans-serif;
+      background: #f6e8ff;
+      color:var(--ink);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-height:100vh;
+      padding:32px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    /* ✨ Background Picture */
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      background-image: url('bg-picture.jpg'); /* ← palitan mo ito */
+      background-size:cover;
+      background-position:center;
+      
+      opacity:0.45;
+      z-index:-1;
+      pointer-events:none;
+    }
+
+    .book {
+      background: var(--paper) url('your-story-background.jpg') center/cover no-repeat;
+      width:min(940px, 92%);
+      box-shadow: 0 10px 35px rgba(0,0,0,0.12);
+      border-radius:18px;
+      padding:40px 56px;
+      position:relative;
+      overflow:hidden;
+      border: 2px solid var(--accent-light);
+    }
+
+    /* Page Shine */
+    .book::after{
+      content:''; 
+      position:absolute;
+      right:0;
+      top:0;
+      width:70px;
+      height:70px;
+      background:linear-gradient(135deg, rgba(255,255,255,0.4), transparent 60%);
+      pointer-events:none;
+    }
+
+    /* ✨ Title */
+    .custom-title {
+      font-family:'OneStarryNight', cursive !important;
+      font-size:4.8rem !important;
+      text-align:center;
+      color:#c487ab;
+      margin:0;
+      text-shadow:0 4px 10px rgba(201,137,171,0.35);
+    }
+
+    .chapter{
+      text-align:center;
+      font-size:1.25rem;
+      margin-top:-5px;
+      color:#a96d8c;
+      font-weight:600;
+    }
+
+    .story {
+      column-count:2;
+      column-gap:40px;
+      line-height:1.7;
+      font-size:1.05rem;
+      text-align:justify;
+      padding-top:20px;
+    }
+
+    /* ✨ Signatures */
+    .signatures {
+      display:flex;
+      justify-content:space-between;
+      gap:24px;
+      margin-top:36px;
+      align-items:center; /* Center alignment */
+    }
+
+    .sig {
+      width:180px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      text-align:center;
+    }
+
+    .avatar {
+      width:130px;
+      height:130px;
+      border-radius:50%;
+      background:linear-gradient(180deg,#fff 0%, #ffeef6 100%);
+      border:3px solid #e5c5d6;
+      box-shadow:0 8px 25px rgba(0,0,0,0.08);
+      overflow:hidden;
+    }
+
+    .sig label {
+      margin-top:12px;
+      font-weight:600;
+      color:#8c617b;
+    }
+
+    .sig small {
+      display:block;
+      margin-top:4px;
+      color:#a67b92;
+      font-size:0.85rem;
+    }
+
+    @media (max-width:700px){
+      .story{column-count:1}
+      .sig{width:48%}
+      .avatar{width:105px;height:105px}
+    }
+  </style>
+</head>
+
+<body>
+
+  <article class="book">
+    <header>
+      <h1 class="custom-title">Story in the Book</h1>
+      <h2 class="chapter">Chapter 1</h2>
+    </header>
+
+    <section class="story" id="story-text">
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Molly had been staring out of her window for about an hour now. On her desk, lying between the copies of <em>Nature</em>, <em>New Scientist</em>, and all the other scientific journals her work appeared in, was a well-thumbed copy of <cite>On The Road</cite>. It had been Molly's favourite book since college, and the longer she spent in these four walls the more she felt she needed to be free.</p>
+
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;She had spent the last ten years in this room, sitting under a poster with an Oscar Wilde quote proclaiming that <q>Work is the refuge of people who have nothing better to do</q>. Although many considered her pioneering work, unraveling the secrets of the llama <abbr title="Deoxyribonucleic acid">DNA</abbr>, to be an outstanding achievement, Molly <em>did</em> think she had something better to do.</p>
+    </section>
+
+    <footer class="signatures">
+      <div class="sig">
+        <div class="avatar"><img src="submitted-by.jpg" style="width:100%; height:100%; object-fit:cover;"></div>
+        <label>Submitted By</label>
+        <small>Princess Dianne E. Pelaez</small>
+        <small>BSIT - 1H</small>
+      </div>
+
+      <div class="sig">
+        <div class="avatar"><img src="submitted-to.jpg" style="width:100%; height:100%; object-fit:cover;"></div>
+        <label>Submitted To</label>
+        <small>Sherwin C. Sangalang</small>
+      </div>
+    </footer>
+  </article>
+
+</body>
+</html>
